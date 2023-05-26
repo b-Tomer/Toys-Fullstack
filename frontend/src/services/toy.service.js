@@ -55,7 +55,7 @@ function getEmptyToy() {
 }
 
 function getDefaultFilter() {
-    return { txt: '', maxPrice: 0 }
+    return { search: '', inStock: false, labels: [] }
 }
 
 

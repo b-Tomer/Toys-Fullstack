@@ -11,6 +11,9 @@ import { ToyEdit } from './views/toy-edit';
 import { ToyIndex } from './views/toy-index';
 import { ToyDetails } from './views/toy-details';
 import { Charts } from './views/charts';
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import { Contact } from './views/contact';
 
 
 
@@ -18,11 +21,13 @@ export function App() {
   return (
     <div className="App">
          <Provider store={store}>
+         <DndProvider backend={HTML5Backend}>
         <Router>
             <section className="app">
                 <AppHeader />
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/contact" element={<Contact />} />
                     <Route path="/toy" element={<ToyIndex />} />
                     <Route path="/user" element={<UserProfile />} />
                     <Route path="/about" element={<About />} />
@@ -33,6 +38,7 @@ export function App() {
                 <AppFooter />
             </section>
         </Router>
+        </DndProvider>
     </Provider>
     </div>
   )

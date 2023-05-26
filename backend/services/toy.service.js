@@ -2,13 +2,12 @@ const fs = require('fs')
 var toys = require('../data/toy.json')
 
 function query(filterBy = {}, sortBy = '') {
-    console.log('sort: ', sortBy)
+    console.log('filterBy: ', filterBy)
     let toysToDisplay = toys
-    if (filterBy.inStock) toysToDisplay = toys.filter(toy => toy.inStock)
+    if (filterBy.inStock === 'true') toysToDisplay = toys.filter(toy => toy.inStock)
     if (filterBy.search) {
         const regExp = new RegExp(filterBy.search, 'i')
         toysToDisplay = toys.filter(toy => regExp.test(toy.name))
-        console.log('toysToDisplay: ', toysToDisplay)
     }
     if (sortBy === 'createdAt') toysToDisplay = toysToDisplay.sort((a, b) => a.createdAt - b.createdAt)
     if (sortBy === 'price') toysToDisplay = toysToDisplay.sort((a, b) => a.price - b.price)
@@ -17,14 +16,10 @@ function query(filterBy = {}, sortBy = '') {
         else return 1
     })
 
-    if (filterBy.art) toysToDisplay = toys.filter(toy => toy.labels.includes('art'))
-    if (filterBy.baby) toysToDisplay = toys.filter(toy => toy.labels.includes('baby'))
-    if (filterBy.boxGame) toysToDisplay = toys.filter(toy => toy.labels.includes('Box game'))
-    if (filterBy.doll) toysToDisplay = toys.filter(toy => toy.labels.includes('doll'))
-    if (filterBy.onWheels) toysToDisplay = toys.filter(toy => toy.labels.includes('On wheels'))
-    if (filterBy.outdoor) toysToDisplay = toys.filter(toy => toy.labels.includes('Outdoor'))
-    if (filterBy.puzzle) toysToDisplay = toys.filter(toy => toy.labels.includes('Puzzle'))
-    if (filterBy.batteryPowered) toysToDisplay = toys.filter(toy => toy.labels.includes('Battery powered'))
+    if (filterBy.labels && filterBy.labels.length > 0) {
+        const labels = Array.isArray(filterBy.labels) ? filterBy.labels : filterBy.labels.split(',')
+        toysToDisplay = toysToDisplay.filter(toy => labels.every(l => toy.labels.includes(l)))
+    }
 
     // if (filterBy.pageIdx !== undefined) {
     //     let startIdx = filterBy.pageIdx * PAGE_SIZE

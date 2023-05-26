@@ -179,7 +179,7 @@
       "Puzzle"
     ],
     "createdAt": 1631031801246,
-    "inStock": true
+    "inStock": false
   },
   {
     "_id": "t133",
@@ -201,7 +201,7 @@
       "On wheels"
     ],
     "createdAt": 1631031801278,
-    "inStock": true
+    "inStock": false
   },
   {
     "_id": "t137",
@@ -211,7 +211,7 @@
       "Art"
     ],
     "createdAt": 1631031801295,
-    "inStock": true
+    "inStock": false
   },
   {
     "_id": "t139",
@@ -244,6 +244,6 @@
       "Battery Powered"
     ],
     "createdAt": 1631031801345,
-    "inStock": true
+    "inStock": false
   }
 ]

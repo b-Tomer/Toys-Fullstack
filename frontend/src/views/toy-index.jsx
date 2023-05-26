@@ -10,6 +10,7 @@ import { loadToys, removeToy, saveToy } from '../store/toy.action.js'
 import { addActivity } from '../store/user.action.js'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+// import { Card } from '../cmps/drag.jsx'
 
 
 export function ToyIndex() {
@@ -80,15 +81,14 @@ export function ToyIndex() {
       })
   }
 
-  function onSetFilter(filterToEdit) {
-    console.log(filterToEdit)
-    dispatch({ type: FILTER_BY, filterToEdit })
+  function onSetFilter(filterByToEdit) {
+    console.log(filterByToEdit)
+    dispatch({ type: FILTER_BY, filterByToEdit })
   }
 
   function onSearch(val) {
-    console.log(val)
-    const filterToEdit = { search: val }
-    dispatch({ type: FILTER_BY, filterToEdit })
+    const filterByToEdit = { search: val }
+    dispatch({ type: FILTER_BY, filterByToEdit })
   }
 
 
@@ -117,15 +117,16 @@ export function ToyIndex() {
 
       />
 
+      {/* <Card text={'blasdas'}/> */}
       {/* <Login/> */}
       {/* <MultySelect /> */}
       {/* <section className='paging'> */}
-        {/* <button className='btn paging-txt' onClick={() => onChangePageIdx(-1)}>-</button>
+      {/* <button className='btn paging-txt' onClick={() => onChangePageIdx(-1)}>-</button>
         
         
         */}
-        {/* <span className='paging-txt'>{filterBy.pageIdx + 1}</span> */}
-        {/* <button className='btn paging-txt' onClick={() => onChangePageIdx(1)}>+</button> */}
+      {/* <span className='paging-txt'>{filterBy.pageIdx + 1}</span> */}
+      {/* <button className='btn paging-txt' onClick={() => onChangePageIdx(1)}>+</button> */}
       {/* </section> */}
     </section>
   )

@@ -1,69 +1,60 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { utilService } from "../services/util.service.js";
-import { SORT_BY } from "../store/toy.reducer.js";
+import { FILTER_BY, SORT_BY } from "../store/toy.reducer.js";
 import { useEffect, useRef, useState } from "react";
+import { toyService } from "../services/toy.service.js";
 
 
 export function ToyFilter({ onSearch, onSetFilter, onAddToy }) {
   const dispatch = useDispatch()
   const filterBy = useSelector((storeState) => storeState.toyModule.filterBy)
-  const [selectedOptions, setSelectedOptions] = useState([])
+  const [selectedLabels, setSelectedLabels] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false)
   // const sortBy = useSelector((storeState) => storeState.toyModule.sortBy)
-
-
-  const options = [
-    { label: 'On wheels', value: 'onWheels' },
-    { label: 'Box game', value: 'boxGame' },
-    { label: 'Art', value: 'art' },
-    { label: 'Baby', value: 'baby' },
-    { label: 'Doll', value: 'doll' },
-    { label: 'Puzzle', value: 'puzzle' },
-    { label: 'Outdoor', value: 'outdoor' },
-    { label: 'Battery Powered', value: 'batteryPowered' }]
-  const onSetFilterDebounce = useRef(utilService.debounce(onSetFilter))
+  const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+  const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
+    'Outdoor', 'Battery Powered']
+  const onSearchDebounce = useRef(utilService.debounce(onSearch))
 
   useEffect(() => {
-    onSetFilterDebounce.current(filterBy)
-  }, [])
+    onLabelChange(selectedLabels)
+  }, [selectedLabels])
 
+  useEffect(() => {
+    onSearchDebounce.current(filterBy)
+    dispatch({ type: FILTER_BY, filterByToEdit })
+  }, [filterByToEdit])
   function toggleDropdown() {
     setDropdownVisible((prevState) => !prevState)
   }
 
-
-  function handleOptionChange(ev) {
-    const { value, checked } = ev.target;
-    const updatedSelectedOptions = checked
-      ? [...selectedOptions, value]
-      : selectedOptions.filter((option) => {
-        console.log('option, value: ',option, value)
-     return option !== value
-      })
-    setSelectedOptions(updatedSelectedOptions);
-  
-    const selected = updatedSelectedOptions.reduce((acc, item) => {
-      acc[item] = updatedSelectedOptions.includes(item);
-      return acc;
-    }, {});
-  
-    console.log("from filter: ",selected);
-    onSetFilter(selected);
+  function handleLabelChange(event) {
+    const label = event.target.value
+    if (event.target.checked) {
+      setSelectedLabels([...selectedLabels, label])
+    } else {
+      setSelectedLabels(selectedLabels.filter(l => l !== label))
+    }
   }
-  
+
+  function onLabelChange(selectedLabels) {
+    setFilterByToEdit((prevFilter) => ({
+      ...prevFilter,
+      labels: selectedLabels,
+    }))
+  }
+
 
   function onHandleSearch(ev) {
     const val = ev.target.value
-    console.log(val);
     onSearch(val)
   }
 
   function onInStock({ target }) {
-    let isAll = target.checked
-    if (isAll) onSetFilter({ inStock: true })
+    let isInStock = target.checked
+    if (isInStock) onSetFilter({ inStock: true })
     else onSetFilter({ inStock: false })
-
   }
 
   function onSortBy(ev) {
@@ -85,19 +76,20 @@ export function ToyFilter({ onSearch, onSetFilter, onAddToy }) {
       <div className="dropdown-wrapper">
         <div className={`dropdown ${dropdownVisible ? 'open' : ''}`}>
           <div className="dropdown-toggle" onClick={toggleDropdown}>
-          Categories
+            Categories
           </div>
           <div className="dropdown-options">
-            {options.map((option) => (
-              <div key={option.value}>
+            {labels.map((label) => (
+              <div key={label}>
                 <input
                   type="checkbox"
-                  id={option.value}
-                  value={option.value}
-                  checked={selectedOptions.includes(option.value)}
-                  onChange={handleOptionChange}
+                  id={label}
+                  value={label}
+                  checked={selectedLabels.includes(label)}
+                  onChange={handleLabelChange}
                 />
-                <label htmlFor={option.value}>{option.label}</label>
+                {label}
+                <label htmlFor={label}>{label.label}</label>
               </div>
             ))}
           </div>
@@ -106,7 +98,7 @@ export function ToyFilter({ onSearch, onSetFilter, onAddToy }) {
 
       <div className="lables">
         <div>
-          <input type="checkbox" onChange={onInStock} id="all" />
+          <input type="checkbox" onChange={onInStock} id="inStock" />
           <label htmlFor="inStock">In stock</label>
         </div>
       </div>

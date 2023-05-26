@@ -23,7 +23,7 @@ export function toyReducer(state = initialState, action) {
     let filterBy
     if (action.type === FILTER_BY) {
 
-        console.log('action: ', action)
+        // console.log('action: ', action)
     }
     switch (action.type) {
         // Toys
@@ -43,7 +43,7 @@ export function toyReducer(state = initialState, action) {
         case SORT_BY:
             return { ...state, sortBy: action.sortBy }
         case FILTER_BY:
-            filterBy = { ...state.filterBy, ...action.filterToEdit }
+            filterBy = { ...state.filterBy, ...action.filterByToEdit }
             return { ...state, filterBy }
         case SET_IS_TOYS:
             return { ...state, isToys: action.isToys }
