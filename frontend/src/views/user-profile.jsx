@@ -24,19 +24,23 @@ export function UserProfile() {
 
 
   return (
+    <section className='profile-container'>
+
     <div style={userStyle} className='user-profile'>
       <form action="" onSubmit={onSubmit}>
-      <h1>personal details</h1>
+      <h1>Personal details:</h1>
       <h3>Name: {user.fullname}</h3>
       <input
-        className=''
+
+        className='txt-input'
         type='text'
         name='fullname'
         placeholder='change name?'
         onChange={handelNameChange}
         />
-      <button>Ok</button>
+      <button className='btn'>Ok</button>
         </form>
     </div>
+        </section>
   )
 }

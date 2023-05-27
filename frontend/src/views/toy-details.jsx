@@ -24,7 +24,9 @@ export function ToyDetails() {
     // console.log(toy);
 
     if (!toy) return <h1>loadings....</h1>
-    return toy && <div>
+    return toy && <section className='details-container'>
+
+    <div className='details'>
         <h3>Toy Details:</h3>
         <h5>Name: {toy.name}</h5>
         <h4>ID:{toy._id}</h4>
@@ -34,6 +36,7 @@ export function ToyDetails() {
 
         <Link className="btn" to="/toy">Back to List</Link>
     </div>
+    </section>
 
 }
 

@@ -2,7 +2,7 @@ const fs = require('fs')
 var toys = require('../data/toy.json')
 
 function query(filterBy = {}, sortBy = '') {
-    console.log('filterBy: ', filterBy)
+    // console.log('filterBy: ', filterBy)
     let toysToDisplay = toys
     if (filterBy.inStock === 'true') toysToDisplay = toys.filter(toy => toy.inStock)
     if (filterBy.search) {

@@ -91,7 +91,6 @@ export function ToyIndex() {
     dispatch({ type: FILTER_BY, filterByToEdit })
   }
 
-
   function onChangePageIdx(diff) {
     const nextPageIdx = filterBy.pageIdx + diff
     console.log(filterBy.pageIdx);
@@ -114,17 +113,10 @@ export function ToyIndex() {
         toys={toys}
         onRemoveToy={onRemoveToy}
         onEditToy={onEditToy}
-
       />
 
-      {/* <Card text={'blasdas'}/> */}
-      {/* <Login/> */}
-      {/* <MultySelect /> */}
       {/* <section className='paging'> */}
-      {/* <button className='btn paging-txt' onClick={() => onChangePageIdx(-1)}>-</button>
-        
-        
-        */}
+      {/* <button className='btn paging-txt' onClick={() => onChangePageIdx(-1)}>-</button>*/}
       {/* <span className='paging-txt'>{filterBy.pageIdx + 1}</span> */}
       {/* <button className='btn paging-txt' onClick={() => onChangePageIdx(1)}>+</button> */}
       {/* </section> */}

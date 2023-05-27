@@ -22,8 +22,8 @@ const corsOptions = {
     origin: [
         'http://127.0.0.1:8080',
         'http://localhost:8080',
-        'http://127.0.0.1:3000',
-        'http://localhost:3000'
+        'http://127.0.0.1:3001',
+        'http://localhost:3001',
     ],
     credentials: true
 }
@@ -38,7 +38,7 @@ app.use(express.json()) // for req.body
 // List
 app.get('/api/toy', (req, res) => {
     const { sortBy, filterBy } = req.query
-    console.log('filterBy: ', filterBy)
+    // console.log('filterBy: ', filterBy)
     // const filterBy = { inStock, search }    
     toyService.query(filterBy, sortBy)
         .then(toys => {

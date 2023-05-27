@@ -88,8 +88,7 @@ export function ToyFilter({ onSearch, onSetFilter, onAddToy }) {
                   checked={selectedLabels.includes(label)}
                   onChange={handleLabelChange}
                 />
-                {label}
-                <label htmlFor={label}>{label.label}</label>
+                <label htmlFor={label}>{label}</label>
               </div>
             ))}
           </div>
