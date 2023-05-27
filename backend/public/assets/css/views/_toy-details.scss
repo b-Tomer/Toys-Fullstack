@@ -1,0 +1,7 @@
+.details-container {
+    @include centerContainer();
+
+    .details {
+        @include cardBordered();
+    }
+}

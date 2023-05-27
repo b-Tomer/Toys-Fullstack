@@ -1,0 +1,7 @@
+.profile-container {
+    @include centerContainer();
+
+    .user-profile {
+        @include cardBordered();
+    }
+}
