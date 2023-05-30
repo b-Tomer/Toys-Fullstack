@@ -4,6 +4,7 @@ import { utilService } from './util.service.js'
 import { userService } from './user.service.js'
 import { httpService } from './http.service.js'
 
+
 const STORAGE_KEY = 'toyDB'
 const BASE_URL = 'toy/'
 
@@ -14,13 +15,16 @@ export const toyService = {
     remove,
     getEmptyToy,
     getDefaultFilter,
-    getLabelsData
+    getLabelsData,
+    getEmptyMsg,
+    addToyMsg,
+    removeToyMsg
 }
 
 
 function query(filterBy = {}, sortBy = '') {
     // return asyncStorageService.query(STORAGE_KEY)
-    return httpService.get(BASE_URL, {filterBy ,sortBy})
+    return httpService.get(BASE_URL, { filterBy, sortBy })
 }
 function getById(toyId) {
     return httpService.get(BASE_URL + toyId)
@@ -36,65 +40,93 @@ function save(toy) {
     // return asyncStorageService[method](STORAGE_KEY, toy)
     if (toy._id) {
         return httpService.put(BASE_URL, toy)
+        console.log('toy: ', toy)
     } else {
-
         return httpService.post(BASE_URL, toy)
     }
-}
-
-function getEmptyToy() {
-    return (
-        {
-            name: '',
-            price: '',
-            labels: ['Doll', 'Battery Powered', 'Baby'],
-            createdAt: 1631031801071,
-            inStock: true,
-        }
-    )
 }
 
 function getDefaultFilter() {
     return { search: '', inStock: false, labels: [] }
 }
 
-
-
-
-function getLabelsData(){
+function getEmptyToy() {
+    // const imgUrl = 
     return {
-        
-    labels: ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
-    'Outdoor', 'Battery Powered'],
-datasets: [
-    {
-        label: '# of Votes',
-        data: [3, 1, 10, 9, 3, 8, 6, 9],
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgb(212, 239, 144, 0.2)',
-            'rgb(181, 181, 181, 0.2)',
+      name: '',
+      price: 0,
+      labels: [],
+      createdAt: Date.now(),
+      inStock: true,
+    //   imgUrl: imgUrl,
+      msgs: []
+    }
+  }
 
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)',
-            'rgb(212, 239, 144, 1)',
-            'rgb(181, 181, 181, 1)',
+async function addToyMsg(toyId, msg) {
+    try {
+        console.log('msg: ', msg )
+        const savedMsg = await httpService.post(`toy/${toyId}/msg`, { msg })
+        return savedMsg
+    } catch (err) {
+        console.log('couldnt add toy msg:', err)
+    }
+}
 
+async function removeToyMsg(toyId, msgId) {
+    try {
+        const savedMsg = await httpService.delete(`toy/${toyId}/msg/${msgId}`)
+        return savedMsg
+    } catch (err) {
+        console.log('couldnt remove toy msg:', err)
+    }
+}
+
+
+function getEmptyMsg() {
+    return {
+        id: utilService.makeId(),
+        txt: ''
+    }
+}
+
+
+
+
+function getLabelsData() {
+    return {
+
+        labels: ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
+            'Outdoor', 'Battery Powered'],
+        datasets: [
+            {
+                label: '# of Votes',
+                data: [3, 1, 10, 9, 3, 8, 6, 9],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgb(212, 239, 144, 0.2)',
+                    'rgb(181, 181, 181, 0.2)',
+
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgb(212, 239, 144, 1)',
+                    'rgb(181, 181, 181, 1)',
+
+                ],
+                borderWidth: 1,
+            },
         ],
-        borderWidth: 1,
-    },
-],
     }
 }
 

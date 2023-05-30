@@ -16,14 +16,15 @@ export function ToyEdit() {
         if (params.toyId) loadtoy()
     }, [])
 
-    function loadtoy() {
-        toyService.getById(params.toyId)
-            .then(settoyToEdit)
-            .catch(err => {
-                console.log('Had issued in toy edit:', err);
-                navigate('/toy')
-                showErrorMsg('toy not found!')
-            })
+    async function loadtoy() {
+        try {
+            const toys = await toyService.getById(params.toyId)
+            settoyToEdit(toys)
+        } catch (err) {
+            console.log('Had issued in toy edit:', err);
+            navigate('/toy')
+            showErrorMsg('toy not found!')
+        }
     }
 
     function handleChange({ target }) {
@@ -35,14 +36,16 @@ export function ToyEdit() {
 
     }
 
-    function onSavetoy(ev) {
+    async function onSavetoy(ev) {
         ev.preventDefault()
-        console.log(toyToEdit);
-        toyService.save(toyToEdit)
-            .then(() => {
-                navigate('/toy')
-            })
+        try {
+            await toyService.save(toyToEdit)
+            navigate('/toy')
+        } catch (err) {
+            console.log(err);
+        }
     }
+    
     if (!toyToEdit) return <div>Loading...</div>
     return (
         <section className="toy-edit">

@@ -14,18 +14,15 @@ export function AppHeader() {
       
     }, [])
 
-    function onLogout() {
-        userService
-            .logout()
-            .then(() => { setUser(null) })
+   async function onLogout() {
+      await userService.logout()
+            setUser(null)
     }
 
     function onChangeLoginStatus(user) {
         setUser(user)
     }
-
-
-
+    
     return (
         <header className='full' >
             <h1>Toys</h1>

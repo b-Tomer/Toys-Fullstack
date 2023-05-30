@@ -7,10 +7,9 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { toyService } from '../services/toy.service.js'
 import { FILTER_BY, SET_IS_TOYS } from '../store/toy.reducer.js'
 import { loadToys, removeToy, saveToy } from '../store/toy.action.js'
-import { addActivity } from '../store/user.action.js'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { Card } from '../cmps/drag.jsx'
+
 
 
 export function ToyIndex() {
@@ -36,53 +35,44 @@ export function ToyIndex() {
     // loadToys(filterBy)
   }
 
-  function onAddToy() {
+  async function onAddToy() {
     const toyToSave = toyService.getEmptyToy()
     const name = prompt('What toy?')
     const price = +prompt('What\'s the price?')
     toyToSave.name = name
     toyToSave.price = price
-    saveToy(toyToSave)
-      .then((savedToy) => {
-        showSuccessMsg(`Toy added (id: ${savedToy._id})`)
-        checkIsToys()
-      })
-      .catch((err) => {
-        showErrorMsg('Cannot add toy')
-      })
+    try {
+      const savedToy = await saveToy(toyToSave)
+      showSuccessMsg(`Toy added (id: ${savedToy._id})`)
+      checkIsToys()
+    } catch (err) {
+      showErrorMsg('Cannot add toy')
+    }
   }
-  // console.log(toys);
 
-  function onEditToy(toy) {
+  async function onEditToy(toy) {
     const price = +prompt('New price?')
-    const toyToSave = { ...toy, price }
-    saveToy(toyToSave)
-      .then((savedToy) => {
-        showSuccessMsg(`Toy updated to price: $${savedToy.price}`)
-      })
-      .catch((err) => {
-        showErrorMsg('Cannot update toy')
-      })
+    try {
+      const toyToSave = { ...toy, price }
+      const savedToy = await saveToy(toyToSave)
+      showSuccessMsg(`Toy updated to price: $${savedToy.price}`)
+    } catch (err) {
+      showErrorMsg('Cannot update toy')
+    }
   }
 
-  function onRemoveToy(toyId) {
-    removeToy(toyId)
-      .then(() => {
-
-        addActivity({
-          txt: `Removed a Toy (id:${toyId})`,
-
-        })
-        showSuccessMsg('Toy removed')
-        checkIsToys()
-      })
-      .catch((err) => {
-        showErrorMsg('Cannot remove toy')
-      })
+  async function onRemoveToy(toyId) {
+    try {
+      await removeToy(toyId)
+      showSuccessMsg('Toy removed')
+      checkIsToys()
+    } catch (err) {
+      showErrorMsg('Cannot remove toy')
+    }
   }
 
   function onSetFilter(filterByToEdit) {
-    console.log(filterByToEdit)
+    // console.log(filterByToEdit)
     dispatch({ type: FILTER_BY, filterByToEdit })
   }
 
@@ -93,11 +83,9 @@ export function ToyIndex() {
 
   function onChangePageIdx(diff) {
     const nextPageIdx = filterBy.pageIdx + diff
-    console.log(filterBy.pageIdx);
-    console.log(nextPageIdx);
-    if (nextPageIdx >= 4) return
+    if (nextPageIdx >= 3) return
     if (nextPageIdx < 0) return
-    dispatch({ type: FILTER_BY, filterToEdit: { ...filterBy, pageIdx: nextPageIdx } })
+    dispatch({ type: FILTER_BY, filterByToEdit: { ...filterBy, pageIdx: nextPageIdx } })
   }
 
   return (
@@ -115,11 +103,11 @@ export function ToyIndex() {
         onEditToy={onEditToy}
       />
 
-      {/* <section className='paging'> */}
-      {/* <button className='btn paging-txt' onClick={() => onChangePageIdx(-1)}>-</button>*/}
-      {/* <span className='paging-txt'>{filterBy.pageIdx + 1}</span> */}
-      {/* <button className='btn paging-txt' onClick={() => onChangePageIdx(1)}>+</button> */}
-      {/* </section> */}
+      <section className='paging'>
+        <button className='btn paging-txt' onClick={() => onChangePageIdx(-1)}>-</button>
+        <span className='paging-txt'>{filterBy.pageIdx + 1}</span>
+        <button className='btn paging-txt' onClick={() => onChangePageIdx(1)}>+</button>
+      </section>
     </section>
   )
 }

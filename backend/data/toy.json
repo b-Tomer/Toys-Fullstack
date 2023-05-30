@@ -16,7 +16,7 @@
   {
     "_id": "t103",
     "name": "Flying buzz",
-    "price": 66,
+    "price": 666,
     "labels": [
       "Outdoor",
       "Battery Powered",
@@ -40,24 +40,13 @@
   },
   {
     "_id": "t107",
-    "name": "Musical Keyboard",
-    "price": 45,
+    "name": "Musical Keyboardd",
+    "price": 450,
     "labels": [
       "Battery Powered",
       "Art"
     ],
     "createdAt": 1631031801047,
-    "inStock": true
-  },
-  {
-    "_id": "t109",
-    "name": "Building Blocks",
-    "price": 25,
-    "labels": [
-      "Art",
-      "Puzzle"
-    ],
-    "createdAt": 1631031801065,
     "inStock": true
   },
   {
@@ -245,5 +234,10 @@
     ],
     "createdAt": 1631031801345,
     "inStock": false
+  },
+  {
+    "name": "TTTT",
+    "price": 12,
+    "_id": "hx9ut"
   }
 ]

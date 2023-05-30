@@ -14,7 +14,7 @@ const initialState = {
     sortBy: null,
     isLoading: false,
     isToys: false,
-    // filterBy:{pageIdx:0}
+    filterBy:{pageIdx:0}
 }
 
 export function toyReducer(state = initialState, action) {

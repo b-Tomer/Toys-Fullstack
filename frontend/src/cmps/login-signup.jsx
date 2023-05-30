@@ -26,30 +26,26 @@ export function LoginSignup({ onChangeLoginStatus }) {
         setCredentials(updatedCredentials)
     }
 
-    function onSubmit(ev) {
+    async function onSubmit(ev) {
         ev.preventDefault()
         if (isSignupState) {
-            signup(credentials)
-                .then(onChangeLoginStatus)
-                .then((user) => {
-                    showSuccessMsg(`Welcome ${user.fullname}`)
-                })
-                .catch(err => {
-                    // showErrorMsg('OOps try again')
-                })
+            try {
+                const user = await signup(credentials)
+                onChangeLoginStatus(user)
+                showSuccessMsg(`Welcome ${user.fullname}`)
+            } catch (err) {
+                showErrorMsg('OOps try again')
+            }
 
         } else {
-            login(credentials)
-                .then(onChangeLoginStatus)
-                .then((user) => {
-                    showSuccessMsg(`Hi again ${user.fullname}`)
-                })
-                .catch(err => {
-                    showErrorMsg('OOps try again')
-                })
-
+            try {
+                const user = await login(credentials)
+                onChangeLoginStatus(user)
+                showSuccessMsg(`Hi again ${user.fullname}`)
+            } catch (err) {
+                showErrorMsg('OOps try again')
+            }
         }
-
     }
 
     function onToggleSignupState() {

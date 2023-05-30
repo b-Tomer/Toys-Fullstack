@@ -9,11 +9,14 @@
 }
 
 .user-msg.success {
-    background-color: var(--clr4);
+    background-color: $clr2;
+    border-radius: 1.2em;
+    opacity: 0.8;
 }
 
 .user-msg.error {
     background-color: rgba(101, 53, 60, 0.992);
+    border-radius: 1.2em;
 }
 
 .user-msg button {

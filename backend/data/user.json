@@ -51,5 +51,40 @@
     "fullname": "Tomer",
     "score": 10000,
     "_id": "ILSX4"
+  },
+  {
+    "username": "lulu",
+    "password": "123",
+    "fullname": "Lulu",
+    "isAdmin": false,
+    "_id": "f6cc4"
+  },
+  {
+    "username": "lulu",
+    "password": "123",
+    "fullname": "Lulu",
+    "isAdmin": false,
+    "_id": "kjweS"
+  },
+  {
+    "username": "popo",
+    "password": "qwe",
+    "fullname": "Popo",
+    "isAdmin": false,
+    "_id": "a0PpL"
+  },
+  {
+    "username": "popo",
+    "password": "qwe",
+    "fullname": "Popo",
+    "isAdmin": false,
+    "_id": "EkdsZ"
+  },
+  {
+    "username": "lili",
+    "password": "asd",
+    "fullname": "Llili",
+    "score": 10000,
+    "_id": "Ns2jE"
   }
 ]

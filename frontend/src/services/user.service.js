@@ -22,11 +22,13 @@ function getById(userId) {
     return httpService.get(BASE_URL + userId)
 }
 
-function login({ username, password }) {
-    return httpService.post(BASE_URL + 'login', { username, password })
-        .then(user => {
-            if (user) return _setLoggedinUser(user)
-        })
+async function login({ username, password }) {
+    try {
+        const user = await httpService.post(BASE_URL + 'login', { username, password })
+        if (user) return _setLoggedinUser(user)
+    } catch (err) {
+        console.log('err: ', err)
+    }
 }
 
 // function login({ username, password }) {
@@ -57,12 +59,14 @@ function signup({ username, password, fullname }) {
 //         })
 // }
 
-function logout() {
-    return httpService.post(BASE_URL + 'logout')
-        .then(() => {
-            sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
-        })
-
+async function logout() {
+    try {
+        await httpService.post(BASE_URL + 'logout')
+        sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
+    }
+    catch(err){
+        console.log('err: ', err )
+    }
 }
 
 function editUser(newName) {
@@ -70,8 +74,8 @@ function editUser(newName) {
         .then(user => {
             if (!user._id) return Promise.reject('Not logged in')
             user.fullname = newName
-            console.log('user: ', user )
-            return httpService.put(BASE_URL + 'edit' , user)
+            console.log('user: ', user)
+            return httpService.put(BASE_URL + 'edit', user)
                 .then((user) => {
                     _setLoggedinUser(user)
                 })
@@ -83,7 +87,7 @@ function getLoggedinUser() {
 }
 
 function _setLoggedinUser(user) {
-    const userToSave = { _id: user._id, fullname: user.fullname, score: user.score }
+    const userToSave = { _id: user._id, fullname: user.fullname, isAdmin: user.isAdmin }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
     return userToSave
 }
